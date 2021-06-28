@@ -1,7 +1,7 @@
 import React from 'react';
 
 class Footer extends React.Component{
-
+//No used (не использую)
     render(){
         return(
             <div className={"footer"}>

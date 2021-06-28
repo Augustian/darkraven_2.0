@@ -29,8 +29,8 @@ class Top extends React.Component {
                             TopElements: [...state.TopElements, {
                                 poster: result.material_data ?
                                     <img src={result.material_data.poster_url} height="100px" /> :
-                                    <img src={require('../images/noposter.png')} height="100px" />,
-                                title: <Link to={"/video_player?id=" + result.id}>{result.title}</Link>,
+                                    <img src={"https://st.kp.yandex.net/images/no-poster.gif"} height="100px" />,
+                                title: <Link to={"/video_player/" + result.id}>{result.title}</Link>,
                                 link: result.link,
                                 year: result.year,
                                 quality: result.quality,

@@ -16,8 +16,6 @@ class Login extends React.Component {
   }
 
   onLogin = (values) => {
-    console.log('Success:', values);
-
     var form = new FormData();
     form.append('login', values.login);
     form.append('password', values.password);
@@ -27,10 +25,10 @@ class Login extends React.Component {
     }).then(res => res.json())
       .then(respons => {
         if (respons.token != null) {
-          console.log(respons);
           localStorage.setItem("token", respons.token);
           localStorage.setItem("name", respons.name);
           localStorage.setItem("icon", respons.icon);
+          localStorage.setItem("style", respons.style);
           this.props.message('Успех!');
           window.location.reload();
         } else {
@@ -40,8 +38,6 @@ class Login extends React.Component {
   };
 
   onRegister = (values) => {
-    console.log('Success:', values);
-
     var form = new FormData();
     form.append('login', values.login);
     form.append('password', values.password);
@@ -68,7 +64,6 @@ class Login extends React.Component {
       <div style={{ position: "static" }}>
         <button className="reg" onClick={this.showModalreg}>Регистрация</button>
         <Button type="primary" className="auth" onClick={this.showModal}><ExitToAppIcon style={{ marginRight: "5px", fontSize: "15px", marginTop: "-5px" }} /><span>Войти</span></Button>
-
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Авторизация</Modal.Title>
@@ -114,7 +109,6 @@ class Login extends React.Component {
                       />
                     </Form.Group>
                   </Form.Row>
-
                   <Button type="submit">Войти</Button>
                 </Form>
               )}
@@ -193,59 +187,6 @@ class Login extends React.Component {
             <p style={{ textAlign: "center" }}>Если у вас уже есть аккаунт, то вы можете войти нажав <a className="link-redirect" onClick={this.showModal}>сюда!</a></p>
           </Modal.Footer>
         </Modal>
-
-        {/*
-
-              <Modal
-                title="Регистрация"
-                visible={this.state.visible2}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-                footer={[]}
-              >
-
-                <Form
-                  {...this.layout}
-                  name="Логин"
-                  initialValues={{
-                    remember: true,
-                  }}
-                  onFinish={this.onRegister}
-                  onFinishFailed={this.onFinishFailed}
-                >
-                  <Form.Item label="Логин" name="username"
-                    rules={[{
-                        required: true,
-                        message: 'Поле обязательное!',
-                      },]}>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label="Пароль" name="password"
-                    rules={[{
-                        required: true,
-                        message: 'Поле обязательное!',
-                      },]}>
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item label="Имя" name="name"
-                    rules={[{
-                        required: true,
-                        message: 'Поле обязательное!',
-                      },]}>
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item {...this.tailLayout}>
-
-                    <Button htmlType="button" onClick={this.handleCancel}>Назад</Button>
-                    <Button type="primary" htmlType="submit" loading={loading} onClick={this.handleOk}>Отправить</Button>
-
-                  </Form.Item>
-                </Form>
-
-                    </Modal>*/}
       </div>
     );
   }

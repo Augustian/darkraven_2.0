@@ -1,0 +1,64 @@
+.editor-title input{
+    width: 100%;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    outline: none;
+}
+
+.editor-poster{
+    position: absolute;
+    left: 0;
+    top: 270px;
+    width: 140px;
+}
+
+.editor-area{
+    background-color: transparent;
+    color: aliceblue;
+    width: 50%;
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(58, 58, 58);
+    outline: none;
+}
+
+.editor-input{
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(58, 58, 58);
+    outline: none;
+}
+.data-list{
+    margin-left: 150px;
+    width: 15%;
+}
+.data-list .Tag{
+    position: relative;
+    background-color: gold;
+    min-height: 15px;
+}
+.delete-item{
+    position: absolute;
+    right: -25px;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    line-height: 0;
+    background-color: red;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+}
+
+.add-item{
+    width: 20px;
+    height: 100%;
+    background-color: skyblue;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+}

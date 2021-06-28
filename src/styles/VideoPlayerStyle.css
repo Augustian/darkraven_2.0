@@ -1,0 +1,145 @@
+.actor-view{
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    background-color: #2f353a;
+    padding: 10px 0;
+}
+
+.slot-actor{
+    margin: 0 5px;
+    background-color: #1f2326;
+}
+
+.slot-actor img{
+    height: 200px;
+    padding: 5px;
+}
+
+.slot-actor p{
+    text-align: center;
+    color: white;
+}
+
+.comments{
+    margin-top: 50px;
+    background-color: #2f353a;
+}
+
+.comments .list-comment{
+    padding: 20px 30px;
+}
+
+.comments .list-comment .comment{
+    margin: 5px 0;
+    margin-left: 0;
+    margin-right: auto;
+    display: table;
+    position: relative;
+    max-width: 70%;
+}
+
+.comments .list-comment .my-comment{
+    margin: 5px 0;
+    margin-left: auto;
+    margin-right: 0;
+    display: table;
+    position: relative;
+    max-width: 70%;
+}
+
+.comments .list-comment .my-comment img{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-top: 20px;
+    border-radius: 50%;
+}
+
+.comments .list-comment .comment img{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin-top: 20px;
+    border-radius: 50%;
+}
+
+.comments .list-comment .my-comment .content{
+    background-color: #394b58;
+    border-radius: 5px 5px 0px 5px;
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    right: 45px;
+    padding: 2px;
+    min-width: 120px;
+}
+.comments .list-comment .comment .content{
+    position: relative;
+    background-color: #1f2326;
+    display: inline-block;
+    color: #fff;
+    left: 45px;
+    padding: 2px;
+    border-radius: 5px 5px 5px 0px;
+    min-width: 120px;
+}
+
+.comments .list-comment h1{
+    border-bottom: solid;
+    border-bottom-width: 1px;
+    margin: 0;
+    padding: 1px 3px;
+    font-size: 14px;
+}
+
+.comments .list-comment p{
+    margin: 0;
+    padding: 1px 3px;
+    font-size: 14px;
+}
+
+.comments .list-comment small{
+    float: right;
+    font-size: 11px;
+}
+
+.comments .list-comment .comment .angle::after {
+    content: ''; 
+    position: absolute;
+    left: -12px; bottom: 0;
+    border: 7px solid transparent; border-right: 5px solid #17212B; border-bottom: 5px solid #17212B;
+}
+
+.comments .list-comment .my-comment .angle::after {
+    content: ''; 
+    position: absolute;
+    right: -12px; bottom: 0;
+    border: 7px solid transparent; border-left: 5px solid #394b58; border-bottom: 5px solid #394b58;
+}
+
+#popover-basic{
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;  
+}
+
+#popover-basic .popover-body{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#popover-basic button{
+    font-size: large;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    padding: 1px 3px;
+}

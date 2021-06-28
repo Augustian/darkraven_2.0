@@ -1,0 +1,10 @@
+.admin .content{
+    background-color: seagreen !important;
+}
+
+.admin .content .angle::after{
+    border: 7px solid transparent; border-left: 5px solid seagreen !important; border-bottom: 5px solid seagreen !important;
+}
+.admin h1{
+    color: rgb(255, 0, 0);
+}
