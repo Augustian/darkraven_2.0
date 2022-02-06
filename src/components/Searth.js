@@ -68,7 +68,7 @@ class Films extends React.Component {
                     siblingCount={3}
                     boundaryCount={2}
                     onChange={(event, page) => {
-                        this.props.sear(page - 1, this.state.pageSize, this.props.search);
+                        this.props.SearchFunc(page - 1, this.state.pageSize, this.props.search);
                         window.scrollTo(0, 0);
                         this.setState({ page: page });
                     }} />

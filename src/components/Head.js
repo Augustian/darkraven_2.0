@@ -66,7 +66,7 @@ class Head extends React.Component {
                 <Carousel style={{ height: "400px" }}>
                     {this.state.SliderPost.map((items, key) =>
                         <Carousel.Item key={key}>
-                            <div class="item">
+                            <div className="item">
                                 <a href={"/video_player/" + items.idvideo}>
                                     <div className="carusel_item">
                                         <div className="carusel_background" style={{ backgroundImage: "url(" + items.photo + ")" }}></div>

@@ -36,7 +36,6 @@ class VideoPlayer extends React.Component {
       this.Watched(this.props.meta.match.params.id, 0);
     }
   }
-
   GetEmojiList() {
     fetch('http://site.alwaysdata.net/emoji.php', {
       method: 'POST',
@@ -45,7 +44,6 @@ class VideoPlayer extends React.Component {
         this.setState({ emoji: respons });
       });
   }
-
   RenderActors() {
     let data = this.state.data;
     if (data.material_data != null)
@@ -69,7 +67,6 @@ class VideoPlayer extends React.Component {
           }
         }));
   }
-
   SaveSeries(series, idvideo, link) {
 
     this.setState({ valueseries: link, seriesnum: series });
@@ -82,7 +79,6 @@ class VideoPlayer extends React.Component {
       body: form,
     })
   }
-
   getActors(actors) {
     var form = new FormData();
     form.append('actors', actors);
@@ -94,7 +90,6 @@ class VideoPlayer extends React.Component {
         this.setState({ actors: respons });
       });
   }
-
   Watched(id, replace) {
     var form = new FormData();
     form.append('id', id);
@@ -108,7 +103,6 @@ class VideoPlayer extends React.Component {
         this.setState({ viewed: respons.status });
       });
   }
-
   GetData(list) {
     fetch('https://kodikapi.com/search?token=9f97924b4aae53e816f330c113b08294&with_material_data=true&with_episodes=true&id=' + list)
       .then(res => res.json())
@@ -150,7 +144,6 @@ class VideoPlayer extends React.Component {
         this.setState({ comments: respons });
       });
   }
-
   PastEmoji(emoji) {
     var selObj = window.getSelection();
     if (selObj.rangeCount > 0) {
@@ -159,7 +152,6 @@ class VideoPlayer extends React.Component {
       document.execCommand('insertText', false, emoji);
     }
   }
-
   DateRegist(local) {
     let lastvisit = new Date(Date.parse(local));
     let totaldate = new Date(Date.now());
@@ -180,7 +172,6 @@ class VideoPlayer extends React.Component {
       }
     }
   }
-
   SendComment() {
     if (localStorage.getItem("token") != null) {
       if (this.input.current.value.length > 0 && this.input.current.value !== "" && this.input.current.value.trim()) {
@@ -208,7 +199,6 @@ class VideoPlayer extends React.Component {
       this.props.message('Эта функция доступна только авторизованным лицам!');
     }
   }
-
   render() {
     let data = this.state.data;
     let episodes = this.state.episodes;
@@ -218,6 +208,7 @@ class VideoPlayer extends React.Component {
       this.GetData(this.props.meta.match.params.id);
       return <div>Загрузка данных....</div>
     }
+
     return (
       <div className={"central videoview"}>
         <p className="post-slot-button post-slot-buttonview">{data.title}</p>

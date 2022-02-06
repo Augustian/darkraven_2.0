@@ -82,13 +82,14 @@ class App extends React.Component {
     this.setState({ pageSize: pageSize });
     form.append('pagesize', pageSize);
     form.append('token', localStorage.getItem("token"));
+    console.log(form);
     fetch("http://site.alwaysdata.net/datavideo.php", {
       method: 'POST',
       body: form,
     }).then(res => res.json())
       .then(respons => {
         this.setState({ VideoContent: respons, VideoValuePage: respons.length });
-        //console.log("Video: ", this.state.VideoContent);
+        console.log("Video: ", this.state.VideoContent);
       })
 
     this.setState({ Type: type });
@@ -130,7 +131,7 @@ class App extends React.Component {
             <Route exact path="/doramy" render={() =><Films Value={this.state.VideoValuePage} pageSize={this.state.pageSize} Func={this.RenderPost} SetSave={this.SetSave} ContentVideo={this.state.VideoContent.video} type="5" RenP={this.RenderPost} message={this.onMessage} />}/>
             <Route exact path="/anime" render={() => <Films Value={this.state.VideoValuePage} pageSize={this.state.pageSize} Func={this.RenderPost} SetSave={this.SetSave} ContentVideo={this.state.VideoContent.video} type="6" RenP={this.RenderPost} message={this.onMessage} />}/>
             <Route path="/video_player/:id" render={(e) => <VideoPlayer meta={e} message={this.onMessage} SetSave={this.SetSave} />} />
-            <Route path="/searth" render={() => <Searth message={this.onMessage} search={this.state.search} Value={this.state.VideoValuePage} SetSave={this.SetSave} ContentVideo={this.state.VideoContent.video} type="7" />}/>
+            <Route path="/searth" render={() => <Searth message={this.onMessage} SearchFunc={this.Search} search={this.state.search} Value={this.state.VideoValuePage} SetSave={this.SetSave} ContentVideo={this.state.VideoContent.video} type="7" />}/>
             <Route exact path="/edit-database" render={() => <BD message={this.onMessage} />}/>
             <Route exact path="/edit-actors" render={() => <Actors message={this.onMessage} />} />
             <Route path="/edaeditor/:id" render={(e) => <EditPage meta={e} message={this.onMessage}/>} />

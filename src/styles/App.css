@@ -399,6 +399,11 @@ small {
     padding: 0;
     position: absolute;
     bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .slot-recommend a {

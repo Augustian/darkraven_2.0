@@ -15,7 +15,7 @@ class Left_Bar extends React.Component {
                         {this.props.data.map((recomend, key) =>
                             <div className="slot-recommend" key={key}>
                                 <a href={"/video_player/" + recomend.idvideo}>
-                                    <img src={recomend.photo} />
+                                    <img src={recomend.photo || "https://st.kp.yandex.net/images/no-poster.gif"} />
                                     <p>{recomend.title}</p>
                                 </a>
                             </div>
