@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Left_Bar extends React.Component {
 
@@ -14,10 +15,10 @@ class Left_Bar extends React.Component {
                     <div>
                         {this.props.data.map((recomend, key) =>
                             <div className="slot-recommend" key={key}>
-                                <a href={"/video_player/" + recomend.idvideo}>
-                                    <img src={recomend.photo || "https://st.kp.yandex.net/images/no-poster.gif"} />
-                                    <p>{recomend.title}</p>
-                                </a>
+                                <Link to={"/video_player/" + recomend.id_video}>
+                                    <img src={recomend.poster_url || "https://st.kp.yandex.net/images/no-poster.gif"} />
+                                    <p>{recomend.title || recomend.title_en}</p>
+                                </Link>
                             </div>
                         )}
                     </div>

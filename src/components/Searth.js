@@ -1,81 +1,49 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Pagination from '@material-ui/lab/Pagination';
+import React, { useEffect, useState } from 'react';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import Pagination from '@mui/material/Pagination';
+import { Button, Typography } from '@mui/material';
+import Film from './Template/Film';
 
-class Films extends React.Component {
+const Search = (props) => {
+    const [pageSize, setPageSize] = useState(5);
+    const [page, setPage] = useState(1);
 
-    constructor() {
-        super();
-        this.state = {
-            pageSize: 5,
-            page: 1,
-        };
-        this.onShowSizeChange = this.onShowSizeChange.bind(this);
+    function onShowSizeChange(current, pagesize) {
+        setPageSize(pagesize);
     }
 
-    onShowSizeChange(current, pagesize) {
-        this.setState({ pageSize: pagesize });
+    useEffect(() => {
+        document.title = "Поиск по сайту: " + props.search;
+    }, [props.search])
+
+    const data = props.ContentVideo;
+    if (!data) {
+        return <div className="central">
+            <h2 style={{ color: "white" }}>Поиск по сайту: нет результатов!</h2>
+        </div>
     }
+    return (
+        <div className="central">
+            <Typography variant='h5' color={"white"}>Поиск по сайту: {props.search}</Typography>
+            {data.map((post, key) =>
+                <Film key={key} data={post} props={props} />
+            )}
+            {data.length == 0 && <Typography color={"whitesmoke"}>Не дало результатов</Typography>}
 
-    render() {
-        const data = this.props.ContentVideo;
-        if (!data) {
-            return <div className="central">
-                <h2 style={{ color: "white" }}>Поиск по сайту: нет результатов!</h2>
-            </div>
-        }
-        return (
-            <div className="central">
-                <h2 style={{ color: "white" }}>Поиск по сайту:</h2>
-                {data.map((post, key) => {
-                    if (post.title != null) {
-                        return (
-                            <div key={key} className="post-slot">
-                                <Button className="ForeverVideo" onClick={() => {
-                                    if (localStorage.getItem("name")) {
-                                        this.props.SetSave(post.title, post.id_video, post.poster != null ? post.poster : 'https://st.kp.yandex.net/images/no-poster.gif');
-                                    } else { this.props.message('Эта функция доступна только авторизованным лицам!'); }
-                                }}>
-                                    <FavoriteIcon />
-                                </Button>
+            <Pagination
+                className="pagination"
+                count={Math.ceil(props.Value / 5)}
+                page={page}
+                siblingCount={3}
+                boundaryCount={2}
+                onChange={(event, page) => {
+                    props.SearchFunc(page - 1, pageSize, props.search);
+                    window.scrollTo(0, 0);
+                    setPage(page);
+                }} />
 
-                                <a className="post-slot-button" href={"/video_player/" + post.id_video}>{post.title}</a>
-                                {post.poster != null ? <img src={post.poster} height="200px" /> : <img src={"https://st.kp.yandex.net/images/no-poster.gif"} height="200px" />}
-                                {post.year != null ?
-                                    <div className="info_panel">
-                                        <p>Год: {post.year}</p>
-                                        <p>Страна: {post.countries}</p>
-                                        <p>Жанры: {post.genres}</p>
-                                        <p>Продолжительность: {post.duration} мин.</p>
-                                        <br />
-                                        <p>{post.discription != null && post.discription}</p>
-                                        <p className="kino_poisk">КиноПоиск: {post.kinopoisk_rating}</p>
-                                        <p className="imdb">Imdb: {post.imdb_rating}</p>
-                                        <p className="quality">{post.quality}</p>
-                                    </div>
-                                    :
-                                    <p style={{ color: "white" }}>Нет информации!</p>}
-                            </div>
-                        )
-                    }
-                })}
-
-                <Pagination
-                    className="pagination"
-                    count={Math.ceil(this.props.Value / 5)}
-                    page={this.state.page}
-                    siblingCount={3}
-                    boundaryCount={2}
-                    onChange={(event, page) => {
-                        this.props.SearchFunc(page - 1, this.state.pageSize, this.props.search);
-                        window.scrollTo(0, 0);
-                        this.setState({ page: page });
-                    }} />
-
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
-export default Films;
+export default Search;

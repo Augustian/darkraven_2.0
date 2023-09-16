@@ -1,13 +1,13 @@
 import React from 'react';
 import "../../styles/EditPage.css";
-import { Button } from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Link,
   Redirect
 } from "react-router-dom";
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Pagination from '@material-ui/lab/Pagination';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import Pagination from '@mui/material/Pagination';
+import { Button } from '@mui/material';
 
 class ActorSearth extends React.Component {
 

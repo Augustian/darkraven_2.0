@@ -1,10 +1,10 @@
+import { Table } from '@mui/material';
 import React, { useState } from 'react';
 import {
     BrowserRouter as Router,
     Link,
     Redirect
 } from "react-router-dom";
-import { Table } from 'react-bootstrap';
 
 class Top extends React.Component {
 
@@ -53,7 +53,7 @@ class Top extends React.Component {
         return (
             <div className="central">
 
-                <Table striped bordered hover variant="dark" responsive>
+                <Table>
                     <thead>
                         <tr>
                             <th>#</th>

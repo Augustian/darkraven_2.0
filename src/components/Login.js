@@ -1,195 +1,166 @@
-import React from 'react';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Button, Modal, Form } from 'react-bootstrap';
-import { Formik } from 'formik';
+import React, { useState } from 'react';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, Modal, TextField } from '@mui/material';
+import { logout, setCookie } from "../index";
 
-class Login extends React.Component {
+const Login = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [showreg, setShowreg] = useState(false);
 
-  constructor() {
-    super();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    this.state = {
-      loading: false,
-      show: false,
-      showreg: false,
-    };
-  }
-
-  onLogin = (values) => {
-    var form = new FormData();
-    form.append('login', values.login);
-    form.append('password', values.password);
-    fetch('http://site.alwaysdata.net/login.php', {
+  const onLogin = (e) => {
+    e.preventDefault();
+    fetch('http://site.alwaysdata.net/api/login.php', {
       method: 'POST',
-      body: form,
+      body: JSON.stringify({
+        'email': email,
+        'password': password
+      }),
     }).then(res => res.json())
       .then(respons => {
         if (respons.token != null) {
-          localStorage.setItem("token", respons.token);
-          localStorage.setItem("name", respons.name);
-          localStorage.setItem("icon", respons.icon);
-          localStorage.setItem("style", respons.style);
-          this.props.message('Успех!');
-          window.location.reload();
+          setCookie("jwt", respons.token, 1);
+          fetch('http://site.alwaysdata.net/api/validate_token.php', {
+            method: 'POST',
+            body: JSON.stringify({
+              'jwt': respons.token,
+            }),
+          }).then(e => e.json()).then(v => {
+            if (v.message == "Access granted.") {
+              localStorage.setItem("name", v.data.name);
+              localStorage.setItem("admin", v.data.admin);
+              localStorage.setItem("email", v.data.email);
+              //localStorage.setItem("icon", v.data.icon);
+              //localStorage.setItem("style", v.data.style);
+              props.message('Успех!');
+            } else {
+              logout();
+              props.message('Ошибка входа!');
+            }
+          });
         } else {
-          this.props.message('Не правильный логин или пароль!');
+          props.message('Не правильный логин или пароль!');
         }
       })
   };
 
-  onRegister = (values) => {
-    var form = new FormData();
-    form.append('login', values.login);
-    form.append('password', values.password);
-    form.append('name', values.name);
-    fetch('http://site.alwaysdata.net/register.php', {
+  const onRegister = (e) => {
+    e.preventDefault();
+    fetch('http://site.alwaysdata.net/api/create_user.php', {
       method: 'POST',
-      body: form,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        'email': email,
+        'password': password,
+        'name': name,
+      }),
+    }).then(e => e.json()).then(v => {
+      if (v.message == "User was created.") {
+        props.message('Успех!');
+      } else {
+        props.message(v.message);
+      }
     })
-    this.props.message('Успех!');
-    this.setState({ showreg: false });
+    setShowreg(false);
   };
 
-  showModal = () => { this.setState({ show: true, showreg: false }); };
-  showModalreg = () => { this.setState({ showreg: true, show: false}); };
+  const showModal = () => { setShow(true); setShowreg(false) };
+  const showModalreg = () => { setShow(false); setShowreg(true) };
 
-  handleClose = () => this.setState({ show: false });
-  handleShow = () => this.setState({ show: true });
+  const handleClose = () => setShow(false);
 
-  handleCloseReg = () => this.setState({ showreg: false });
-  handleShowReg = () => this.setState({ showreg: true });
+  const handleCloseReg = () => setShowreg(false);
 
-  render() {
-    return (
-      <div style={{ position: "static" }}>
-        <button className="reg" onClick={this.showModalreg}>Регистрация</button>
-        <Button type="primary" className="auth" onClick={this.showModal}><ExitToAppIcon style={{ marginRight: "5px", fontSize: "15px", marginTop: "-5px" }} /><span>Войти</span></Button>
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Авторизация</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+  return (
+    <div style={{ position: "static" }}>
+      <Button className="reg" color="warning" onClick={() => showModalreg()}>Регистрация</Button>
+      <Button color="warning" className="auth" onClick={() => showModal()}>
+        <ExitToAppIcon style={{ marginRight: "5px", fontSize: "15px" }} />
+        <span>Войти</span>
+      </Button>
+      <Dialog open={show} onClose={() => handleClose()} maxWidth="xs">
+        <DialogTitle>Авторизация</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="login"
+            label="Логин"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={email}
+            onChange={(v) => setEmail(v.target.value)}
+          />
+          <TextField
+            margin="dense"
+            id="password"
+            label="Пароль"
+            type="password"
+            fullWidth
+            variant="standard"
+            value={password}
+            onChange={(v) => setPassword(v.target.value)}
+          />
+          <Button fullWidth color='secondary' onClick={(e) => onLogin(e)}>Войти</Button>
+          <p style={{ textAlign: "center" }}>Если у вас все еще нет аккаунта, то вы можете его зарегестрировать нажав <a className="link-redirect" onClick={() => showModalreg()}>сюда!</a></p>
+        </DialogContent>
+        {/* <DialogActions>
+        </DialogActions> */}
+      </Dialog>
 
-            <Formik
-              onSubmit={this.onLogin}
-              initialValues={{
-                login: '',
-                password: '',
-              }}
-            >
-              {({
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                touched,
-                isValid,
-                errors,
-              }) => (
-                <Form Validate onSubmit={handleSubmit} >
-                  <Form.Row>
-                    <Form.Group className={"input-slot-style"}>
-                      <Form.Label>Логин</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        name="login"
-                        value={values.login}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className={"input-slot-style"}>
-                      <Form.Label>Пароль</Form.Label>
-                      <Form.Control
-                        required
-                        type="password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                  <Button type="submit">Войти</Button>
-                </Form>
-              )}
-            </Formik>
+      <Dialog open={showreg} onClose={() => handleCloseReg()} maxWidth="xs">
+        <DialogTitle >Регистрация</DialogTitle>
+        <DialogContent>
 
-          </Modal.Body>
-          <Modal.Footer>
-            <p style={{ textAlign: "center" }}>Если у вас все еще нет аккаунта, то вы можете его зарегестрировать нажав <a className="link-redirect" onClick={this.showModalreg}>сюда!</a></p>
-          </Modal.Footer>
-        </Modal>
+          <DialogContentText>
+            Зарегистрируйте аккаунт чтобы получить дополнительные возможности сайта, например воспользоваться функцией избанных
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="login"
+            label="Логин"
+            type="email"
+            fullWidth
+            variant="standard"
+            value={email}
+            onChange={(v) => setEmail(v.target.value)}
+          />
+          <TextField
+            margin="dense"
+            id="password"
+            label="Пароль"
+            type="password"
+            fullWidth
+            variant="standard"
+            value={password}
+            onChange={(v) => setPassword(v.target.value)}
+          />
+          <TextField
+            margin="dense"
+            id="name"
+            label="Имя пользователя"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={name}
+            onChange={(v) => setName(v.target.value)}
+          />
+          <Button fullWidth color='secondary' onClick={(e) => onRegister(e)}>Зарегистрироваться</Button>
 
-        <Modal show={this.state.showreg} onHide={this.handleCloseReg}>
-          <Modal.Header closeButton>
-            <Modal.Title>Регистрация</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-
-            <Formik
-              onSubmit={this.onRegister}
-              initialValues={{
-                login: '',
-                password: '',
-                name: '',
-              }}
-            >
-              {({
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                touched,
-                isValid,
-                errors,
-              }) => (
-                <Form Validate onSubmit={handleSubmit} >
-                  <Form.Row>
-                    <Form.Group className={"input-slot-style"}>
-                      <Form.Label>Логин</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        name="login"
-                        value={values.login}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className={"input-slot-style"}>
-                      <Form.Label>Пароль</Form.Label>
-                      <Form.Control
-                        required
-                        type="password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className={"input-slot-style"}>
-                      <Form.Label>Имя</Form.Label>
-                      <Form.Control
-                        required
-                        type="text"
-                        name="name"
-                        value={values.name}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Form.Row>
-
-                  <Button type="submit">Зарегистрироваться</Button>
-                </Form>
-              )}
-            </Formik>
-
-          </Modal.Body>
-          <Modal.Footer>
-            <p style={{ textAlign: "center" }}>Если у вас уже есть аккаунт, то вы можете войти нажав <a className="link-redirect" onClick={this.showModal}>сюда!</a></p>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    );
-  }
+          <p style={{ textAlign: "center" }}>Если у вас уже есть аккаунт, то вы можете войти нажав <a className="link-redirect" onClick={() => showModal()}>сюда!</a>
+          </p>
+        </DialogContent>
+        {/* <DialogActions>
+        </DialogActions> */}
+      </Dialog>
+    </div>
+  );
 }
 
 export default Login

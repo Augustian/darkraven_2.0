@@ -1,8 +1,7 @@
 import React from 'react';
-import { Card, Accordion, Form, Modal, Button, Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Formik } from 'formik';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Accordion, Card } from '@mui/material';
 
 class HeaderMobile extends React.Component {
 
@@ -20,7 +19,7 @@ class HeaderMobile extends React.Component {
     render() {
         return (
             <div>
-                <Accordion defaultActiveKey="0" className={"nav_bar mobile-view"}>
+                {/* <Accordion defaultActiveKey="0" className={"nav_bar mobile-view"}>
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="1"><MenuIcon style={{ color: "#FFD700" }} /></Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
@@ -97,7 +96,7 @@ class HeaderMobile extends React.Component {
                             </div>
                         )}
                     </Modal.Body>
-                </Modal>
+                </Modal> */}
             </div>
         );
     }

@@ -1,3 +1,6 @@
+@import "./components/Film.scss";
+@import "./components/ActorSlot.scss";
+
 * {
     padding: 0;
     margin: 0;
@@ -37,51 +40,6 @@ body {
     background-color: #1f2326;
 }
 
-.post-slot {
-    transition: 0.5s;
-    background-color: #262a2d;
-    border-color: #d9d9d9;
-    border-style: solid;
-    border-width: 1px;
-    min-height: 235px;
-    margin-bottom: 25px;
-    position: relative;
-    color: white;
-}
-
-.post-slot:hover {
-    border-color: #FFD700;
-    transition: 0.5s;
-}
-
-.post-slot h1,
-.post-slot-button {
-    padding: 0 10px;
-    font-size: 19px;
-    color: white;
-    font-weight: 500;
-}
-
-.post-slot-buttonview {
-    margin-left: -5px;
-}
-
-.post-slot h1 {
-    margin-left: 0px !important;
-}
-
-.post-slot img {
-    float: left;
-    padding: 5px;
-    border-radius: 10px;
-}
-
-.post-slot p {
-    padding: 0 !important;
-    margin: 0 !important;
-    font-size: 13px;
-}
-
 .carusel_info {
     position: absolute;
     left: 0;
@@ -108,9 +66,12 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    line-height: 16px;     /* fallback */
-    max-height: 32px;      /* fallback */
-    -webkit-line-clamp: 2; /* number of lines to show */
+    line-height: 16px;
+    /* fallback */
+    max-height: 32px;
+    /* fallback */
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
     -webkit-box-orient: vertical;
 }
 
@@ -226,40 +187,17 @@ body {
 }
 
 .profile {
-    margin-top: 7px;
-    margin-right: 20px;
-}
+    margin: 7px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 
-.profile small {
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-
-.profile a,
-small {
-    color: #FFD700;
-}
-
-.profile a:hover {
-    color: #FFD700;
-}
-
-.profile button {
-    color: #FFD700;
-    border-style: dashed;
-    border-color: #FFD700;
-    padding: 5px 25px;
-    font-size: 14px;
-}
-
-.profile button:hover {
-    color: #FFD700;
-}
-
-.profile button:focus {
-    color: #FFD700;
-    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.5);
+    p {
+        width: 210px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .search span,
@@ -375,39 +313,42 @@ small {
 .recommend h3 {
     color: white;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .recommend div {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-}
 
-.slot-recommend {
-    background-color: #1f2326;
-    padding-bottom: 25px;
-    margin-bottom: 10px;
-    position: relative;
-}
+    .slot-recommend {
+        background-color: #1f2326;
+        padding-bottom: 25px;
+        margin-bottom: 10px;
+        position: relative;
 
-.slot-recommend img {
-    width: 100px;
-}
 
-.slot-recommend p {
-    margin-bottom: 0;
-    padding: 0;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+        a {
+            color: #cacaca;
+        }
 
-}
+        img {
+            height: 150px;
+            width: 100px;
+            object-fit: cover;
+        }
 
-.slot-recommend a {
-    color: #cacaca;
+        p {
+            margin-bottom: 0;
+            padding: 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
 }
 
 .book-mark {
@@ -463,25 +404,17 @@ small {
     top: 50px;
 }
 
-.message {
-    position: fixed;
-    right: 15px;
-    bottom: 15px;
-    width: 250px;
-    z-index: 9999;
-}
-
 .input-slot-style {
     width: 100%;
 }
 
 .link-redirect {
-    color: #262a2d;
+    color: #d1d8a6;
     font-weight: 700;
 }
 
 .link-redirect:hover {
-    color: #262a2d;
+    color: #7f94a3;
     font-weight: 700;
     text-decoration: underline;
 }
@@ -507,25 +440,31 @@ small {
 
 .videoview {
     background-color: #262a2d;
-}
 
-.post-slot-button {
-    background-color: #474b4e;
-    margin: 0;
-    width: 100%;
-    display: block;
-}
-.post-slot-button:hover{
-    color: #a5a5a5;
-    text-decoration: none;
-}
+    .action_panel {
+        display: flex;
+        background-color: #474b4e;
 
-.videoview .original-title {
-    background-color: #414344;
-    padding: 0 10px;
-    font-size: 14px;
-    color: #a5a5a5;
-    font-weight: 500;
+        .post-slot-button {
+            p {
+                padding: 0 5px;
+            }
+
+            font-size: 19px;
+            color: white;
+            font-weight: 500;
+            width: 100%;
+            display: block;
+        }
+
+        .original-title {
+            background-color: #414344;
+            font-size: 14px;
+            color: #a5a5a5;
+            font-weight: 500;
+            flex: 1;
+        }
+    }
 }
 
 .videoview .dop-info {
@@ -560,7 +499,7 @@ small {
 
 .episodes-list {
     display: flex;
-    justify-content: space-around;
+    // justify-content: space-around;
     flex-wrap: wrap;
     background-color: #1f2326;
     border: none;
@@ -571,7 +510,7 @@ small {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    margin: 7px;
+    margin: 9px;
     font-weight: 600;
     border-style: dashed;
     background-color: #262a2d;
@@ -591,7 +530,7 @@ small {
     transition: 1s;
 }
 
-.dropdown-item{
+.dropdown-item {
     position: relative;
 }
 
@@ -616,56 +555,59 @@ small {
     background-color: #0c1013;
 }
 
-@media screen and (max-device-width: 1000px){
+@media screen and (max-device-width: 1000px) {
     .main-conteiner {
         width: 100%;
         margin-right: auto;
         margin-left: auto;
     }
 }
+
 @media screen and (max-device-width: 900px) {
     .main-conteiner {
         width: 100%;
         margin-right: auto;
         margin-left: auto;
     }
+
     .info_panel {
         position: relative;
         margin-top: 90px;
     }
+
     .kino_poisk {
         position: absolute;
         right: 5px;
         top: -60px;
         color: black;
     }
+
     .imdb {
         position: absolute;
         right: 5px;
         top: -40px;
         color: black;
     }
+
     .quality {
         position: absolute;
         right: 5px;
         top: -20px;
         color: green;
     }
-    .ForeverVideo {
-        position: absolute;
-        right: 5px;
-        top: 15px;
-        z-index: 5;
-    }
+
     .pc-view {
         display: none;
     }
+
     .mobile-view {
         display: block;
     }
+
     .mobile-view div {
         background-color: #1f2326 !important;
     }
+
     .mobile-view a {
         display: block;
         padding: 10px;
@@ -679,11 +621,13 @@ small {
         margin-right: auto;
         margin-left: auto;
     }
+
     .info_panel {
         position: relative;
         top: 0px;
         margin: 0;
     }
+
     .kino_poisk {
         position: absolute;
         right: 5px;
@@ -692,6 +636,7 @@ small {
         font-weight: 700;
         text-shadow: 1px 2px 2px black;
     }
+
     .imdb {
         position: absolute;
         right: 5px;
@@ -700,6 +645,7 @@ small {
         font-weight: 700;
         text-shadow: 1px 2px 2px black;
     }
+
     .quality {
         position: absolute;
         right: 5px;
@@ -708,16 +654,19 @@ small {
         font-weight: 700;
         text-shadow: 1px 2px 2px black;
     }
+
     .ForeverVideo {
         position: absolute;
         right: 15px;
         top: 15px;
         z-index: 5;
     }
+
     .post-slot img {
         width: 100%;
         height: auto;
     }
+
     .post-slot h1,
     .post-slot-button {
         padding: 0 10px;
@@ -725,18 +674,22 @@ small {
         color: white;
         font-weight: 500;
     }
+
     .post-slot-button a {
         color: #FFD700 !important;
         text-decoration: none !important;
     }
+
     .slot-recommend img {
         width: 100px;
     }
+
     .central {
         margin-left: 0;
         padding: 10px;
         padding-top: 10px;
     }
+
     .right-bar {
         margin-top: 10px;
         width: 15%;
@@ -744,6 +697,7 @@ small {
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
         float: none;
     }
+
     .left-bar {
         margin-top: 10px;
         width: 100%;
@@ -751,16 +705,19 @@ small {
         float: none;
         background-color: #1f2326;
     }
+
     .header h3 {
         color: #FFD700;
         margin: 7px 15px;
         font-weight: 800;
         font-size: 17px;
     }
+
     .auth {
         margin: 0;
         font-size: 12px;
     }
+
     .rating-info {
         position: initial;
     }
@@ -769,7 +726,7 @@ small {
         height: 400px;
         position: relative;
     }
-    
+
     .carusel_background {
         filter: blur(7px);
         width: 100%;
@@ -779,7 +736,7 @@ small {
         background-position-x: center;
         background-position-y: center;
     }
-    
+
     .carusel_item img {
         position: absolute;
         right: 10%;

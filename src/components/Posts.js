@@ -1,64 +1,53 @@
-import React from 'react';
-import Pagination from '@material-ui/lab/Pagination';
+import React, { useEffect, useState } from 'react';
+import Pagination from '@mui/material/Pagination';
+import Post from './Template/Post';
 
-class Posts extends React.Component {
+const Posts = (props) => {
 
-    constructor() {
-        super();
-        this.state = {
-            pageSize: 5,
-            page: 1,
-            Posts: null,
-            PostValue: 0,
-        };
-        this.GetData = this.GetData.bind(this);
-    }
+    const [pageSize, setPageSize] = useState(5);
+    const [page, setPage] = useState(1);
+    const [posts, setPosts] = useState(null);
 
-    componentDidMount() {
-        this.GetData(0);
-    }
-
-    GetData(list) {
+    const GetData = (page) => {
         var form = new FormData();
-        form.append('list', list);
-        fetch('http://site.alwaysdata.net/posts.php', {
+        form.append('page', page);
+        form.append('pageSize', 10);
+        form.append('type', 3);
+        fetch('http://site.alwaysdata.net/api/get_content.php', {
             method: 'POST',
             body: form,
         }).then(res => res.json())
             .then(respons => {
-                this.setState({ Posts: respons.posts, PostValue: respons.postsvalue });
+                console.log(respons);
+                setPosts(respons);
             })
     }
 
-    render() {
-        const data = this.state.Posts;
-        if (!data) { return <div>Загрузка данных....</div> }
+    useEffect(() => {
+        GetData(0);
+    }, [])
 
-        return (
-            <div className="central">
-                {data.map((post, key) =>
-                    <div key={key} className="post-slot">
-                        <h1>{post.title}</h1>
-                        {post.photo1 &&
-                            <img src={post.photo1} width="40%" />
-                        }
-                        <div dangerouslySetInnerHTML={{__html: post.discription}}/>
-                    </div>
-                )}
-                <Pagination
-                    className="pagination"
-                    count={Math.ceil(this.props.Value / 5)}
-                    page={this.state.page}
-                    siblingCount={3}
-                    boundaryCount={2}
-                    onChange={(event, page) => {
-                        this.props.Func(this.props.type, page - 1, this.state.pageSize);
-                        window.scrollTo(0, 0);
-                        this.setState({ page: page });
-                    }} />
-            </div>
-        );
-    }
+    const data = posts;
+    if (!data) { return <div>Загрузка данных....</div> }
+
+    return (
+        <div className="central">
+            {data.posts.map((post, key) =>
+                <Post key={key} data={post} />
+            )}
+            <Pagination
+                className="pagination"
+                count={Math.ceil(data.count / pageSize)}
+                page={page}
+                siblingCount={3}
+                boundaryCount={2}
+                onChange={(event, page) => {
+                    props.Func(props.type, page - 1, pageSize);
+                    window.scrollTo(0, 0);
+                    setPage(page);
+                }} />
+        </div>
+    );
 }
 
 export default Posts;

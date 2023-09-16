@@ -1,0 +1,48 @@
+.post-slot {
+    transition: 0.5s;
+    background-color: #262a2d;
+    min-height: 235px;
+    margin-bottom: 25px;
+    position: relative;
+    color: white;
+    .action_panel {
+        display: flex;
+        background-color: #474b4e;
+        .post-slot-button {
+            p {
+                padding: 0 5px;
+            }
+            font-size: 19px;
+            color: white;
+            font-weight: 500;
+            width: 100%;
+            display: block;
+            text-decoration: none;
+            &:hover {
+                color: #a5a5a5;
+                text-decoration: none;
+            }
+        }
+        .post-slot-buttonview {
+            margin-left: -5px;
+        }
+        .original-title {
+            background-color: #414344;
+            font-size: 14px;
+            color: #a5a5a5;
+            font-weight: 500;
+            width: 100%;
+        }
+    }
+    .flex_block {
+        display: flex;
+    }
+    img {
+        float: left;
+        height: 300px;
+        width: 210px;
+        object-fit: cover;
+        padding: 5px;
+        border-radius: 10px;
+    }
+}

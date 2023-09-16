@@ -1,35 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { VisibilityOff } from '@mui/icons-material';
 import {
     BrowserRouter as Router,
     Link,
+    Redirect
 } from "react-router-dom";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Pagination from '@mui/material/Pagination';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import { getCookie } from '..';
-import { useHistory } from 'react-router-dom';
-import ActorSlot from './Template/ActorSlot';
+import Film from './Template/Film';
 
-const Actors = (props) => {
-    const [data, setData] = useState([]);
-    const [count, setCount] = useState(0);
+const Favorites = (props) => {
+    const [data, setData] = useState(null);
     const [pageSize, setPageSize] = useState(5);
     const [page, setPage] = useState(1);
 
     function RenderDB(page, pageSize) {
-        fetch("http://site.alwaysdata.net/api/get_actors.php", {
+        fetch("http://site.alwaysdata.net/api/get_favorites.php", {
             method: 'POST',
             body: JSON.stringify({
                 "jwt": getCookie("jwt"),
                 "page": page,
                 "pageSize": pageSize
             }),
-        }).then(res => res.json())
+        }).then(response => response.json())
             .then(respons => {
-                setData(respons.actors);
-                setCount(respons.count);
-                //console.log(respons);
+                if (respons.status == 200)
+                    setData(respons)
             })
     }
 
@@ -38,19 +35,17 @@ const Actors = (props) => {
         window.scrollTo(0, 0);
     }, [])
 
-    const history = useHistory();
+    if (!data) { return <CircularProgress /> }
 
-    if (!data) { return <div>Загрузка данных....</div> }
     return (
         <div className="central">
-            <Button style={{ width: "100%", margin: "5px 0" }} onClick={() => history.push("/edaactor/new")}>Добавить</Button>
-            {data.map((post, key) =>
-                <ActorSlot key={key} data={post} />
+            {data.posts.map((post, key) =>
+                <Film key={key} data={post} {...props} isWatched />
             )}
 
             <Pagination
                 className="pagination"
-                count={Math.ceil(count / 5)}
+                count={Math.ceil(data.count / pageSize)}
                 page={page}
                 siblingCount={3}
                 boundaryCount={2}
@@ -63,4 +58,4 @@ const Actors = (props) => {
     );
 }
 
-export default Actors;
+export default Favorites;

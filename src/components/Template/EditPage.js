@@ -1,13 +1,13 @@
 import React from 'react';
 import "../../styles/EditPage.css";
-import { Card, Accordion, Button } from 'react-bootstrap';
-import SaveIcon from '@material-ui/icons/Save';
-import CloseIcon from '@material-ui/icons/Close';
+import SaveIcon from '@mui/icons-material/Save';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   BrowserRouter as Router,
   Link,
   Redirect
 } from "react-router-dom";
+import { Accordion, Button } from '@mui/material';
 
 class EditPage extends React.Component {
 

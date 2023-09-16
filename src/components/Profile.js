@@ -1,47 +1,113 @@
-import React from 'react';
-import { Dropdown } from 'react-bootstrap';
+import { AutoAwesomeMotion, Favorite, Logout, Settings, Storage } from '@mui/icons-material';
+import { Avatar, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { getCookie, logout, setCookie } from '..';
+import { useHistory } from 'react-router-dom';
 
-class Profile extends React.Component {
+const Profile = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-  constructor() {
-    super();
-    this.state = {
-      isModerator: 0,
-    }
-  }
-  CheckModerator() {
-    var form = new FormData();
-    form.append('token', localStorage.getItem("token"));
-    fetch('http://site.alwaysdata.net/checkmoderator.php', {
-      method: 'POST',
-      body: form,
-    }).then(res => res.json())
-      .then(respons => {
-        console.log(respons);
-        if (respons != null)
-          this.setState({ isModerator: respons });
-      })
-  }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-  render() {
-    return (
-      <Dropdown className="profile">
-        <Dropdown.Toggle variant="none" id="dropdown-basic" onMouseDown={() => this.CheckModerator()}><img src={localStorage.getItem("icon")} width={"25px"} height={"25px"} style={{ marginRight: "10px", borderRadius: "10px", objectFit: "cover" }} />{localStorage.getItem("name")}</Dropdown.Toggle>
+  const history = useHistory();
+  let name = localStorage.getItem("name");
+  return (
+    <Tooltip title="Профиль">
+      <>
+        <div className="profile">
+          <Avatar src={localStorage.getItem("icon")}
+            width={"25px"}
+            height={"25px"}
+            alt={name}
+            style={{ marginRight: 5 }}
+          />
+          <Typography onClick={handleClick} color="white">{name}</Typography>
+        </div>
 
-        <Dropdown.Menu>
-          <small style={{ color: "grey" }}>Управление аккаунтом</small>
-          {this.state.isModerator == 1 &&
-            <div>
-              <Dropdown.Item href="/edit-database">Управление базой</Dropdown.Item>
-              <Dropdown.Item href="/edit-actors">Управление актерами</Dropdown.Item>
-              <Dropdown.Divider />
-            </div>}
-          <Dropdown.Item href="/watched">Просмотренные</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item href="/" onClick={() => { localStorage.clear() }}>Выход</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-  }
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&:before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: 'background.paper',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+          {localStorage.getItem("admin") == 1 &&
+            <MenuItem onClick={() => history.push('/edit-database')}>
+              <ListItemIcon>
+                <Storage fontSize="small" />
+              </ListItemIcon>
+              Управление базой
+            </MenuItem>
+          }
+          {localStorage.getItem("admin") == 1 &&
+            <MenuItem onClick={() => history.push('/edit-actors')}>
+              <ListItemIcon>
+                <Storage fontSize="small" />
+              </ListItemIcon>
+              Управление актерами
+            </MenuItem>
+          }
+          <MenuItem onClick={() => history.push('')}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Управление аккаунтом
+          </MenuItem>
+          <MenuItem onClick={() => history.push('/favorites')}>
+            <ListItemIcon>
+              <Favorite fontSize="small" />
+            </ListItemIcon>
+            Избранные
+          </MenuItem>
+          <MenuItem onClick={() => history.push("/watched")}>
+            <ListItemIcon>
+              <AutoAwesomeMotion fontSize="small" />
+            </ListItemIcon>
+            Просмотренные
+          </MenuItem>
+          <MenuItem onClick={() => logout()}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Выход
+          </MenuItem>
+        </Menu>
+      </>
+    </Tooltip>
+  );
 }
 export default Profile;

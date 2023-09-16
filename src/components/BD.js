@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
 import {
     BrowserRouter as Router,
     Link,
     Redirect
 } from "react-router-dom";
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Pagination from '@material-ui/lab/Pagination';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Pagination from '@mui/material/Pagination';
+import { Button } from '@mui/material';
 
 class BD extends React.Component {
 
